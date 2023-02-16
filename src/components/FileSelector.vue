@@ -21,7 +21,14 @@ export default defineComponent({
 
   setup() {
     const root = useRootStore();
-    const fileName = computed(() => root.rootFolder);
+    const fileName = computed(() => {
+      const tmp = root.rootFolder as string;
+      if (!tmp) {
+        return "";
+      }
+      const tmp_array = tmp.split(/\\|\//g);
+      return ".../".concat(tmp_array.slice(-3).join("/"));
+    });
     const selected = computed(() => root.folderSelected);
 
     async function loadFolder() {
@@ -50,10 +57,9 @@ export default defineComponent({
 <style scoped>
 .file-container {
   position: absolute;
-  bottom: 35vh;
-  right: 30vw;
-  height: 60vh;
-  width: 50vw;
+  top: 10%;
+  height: 58%;
+  width: 55%;
   background-color: rgba(239, 239, 239, 0.36);
   border-radius: 10px;
   display: flex;
@@ -66,24 +72,23 @@ export default defineComponent({
 
 .file-container label {
   display: inline-block;
-  bottom: 0;
-  font-size: 5vh;
+  /*bottom: 0;*/
+  font-size: 1rem;
   font-weight: 600;
   user-select: none;
 }
 
 .file-container span {
   position: absolute;
-  bottom: 14vh;
-  font-size: 4.5vh;
+  /*bottom: 30%;*/
+  font-size: 0.8rem;
   color: #084298;
   font-weight: 600;
-}
-
-.custom-file-input {
-  visibility: hidden;
-  top: 3vh;
-  width: 44vw;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
 }
 
 .custom-file-input::before {
