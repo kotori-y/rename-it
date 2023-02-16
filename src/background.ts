@@ -1,8 +1,8 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, Menu } from "electron";
+import { app, protocol, BrowserWindow, Menu, ipcMain, dialog } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
+// import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Scheme must be registered before the app is ready
@@ -10,10 +10,25 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
+ipcMain.on("open-folder-dialog", (event, arg) => {
+  console.log(arg); // prints "ping"
+  dialog
+    .showOpenDialog({
+      properties: ["openDirectory"],
+    })
+    .then((result) => {
+      console.log(result.filePaths);
+      event.returnValue = result.filePaths;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 400,
+    width: 533,
     height: 300,
     // frame: false, // 取消window自带的关闭最小化等
     resizable: false, // 禁止改变主窗口尺寸

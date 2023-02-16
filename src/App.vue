@@ -1,27 +1,31 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div class="container">
+    <FileSelector />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import FileSelector from "@/components/FileSelector.vue";
 
 export default defineComponent({
   name: "App",
-  components: {
-    HelloWorld,
-  },
+  components: { FileSelector },
 });
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  background-image: url("./assets/background.png");
+  background-size: cover;
 }
+
+/*.container {*/
+/*  position: absolute;*/
+/*  width: 80vw;*/
+/*  height: 80vh;*/
+/*  left: 50%;*/
+/*  transform: translateX(-50%);*/
+/*  !*background-color: rgba(255, 255, 255, 0.5);*!*/
+/*}*/
 </style>
