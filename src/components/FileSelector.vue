@@ -33,12 +33,10 @@ export default defineComponent({
 
     async function loadFolder() {
       // prints "pong"
-      const inputFolder = ipcRenderer.sendSync(
+      root.rootFolder = ipcRenderer.sendSync(
         "open-folder-dialog",
         "ping"
       )[0] as string;
-      root.rootFolder = inputFolder;
-      root.folderSelected = !!inputFolder;
     }
 
     onUnmounted(() => {
