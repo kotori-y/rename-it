@@ -12,16 +12,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, onUnmounted } from "vue";
 import { ipcRenderer } from "electron";
-// import store from "@/store";
+import { useRootStore } from "../../store";
 
 export default defineComponent({
   name: "FileSelector",
 
   setup() {
-    const fileName = ref("");
-    const selected = ref(false);
+    const root = useRootStore();
+    const fileName = computed(() => root.rootFolder);
+    const selected = computed(() => root.folderSelected);
 
     async function loadFolder() {
       // prints "pong"
@@ -29,9 +30,13 @@ export default defineComponent({
         "open-folder-dialog",
         "ping"
       )[0] as string;
-      fileName.value = inputFolder;
-      selected.value = !!inputFolder;
+      root.rootFolder = inputFolder;
+      root.folderSelected = !!inputFolder;
     }
+
+    onUnmounted(() => {
+      root.$reset();
+    });
 
     return {
       fileName,
