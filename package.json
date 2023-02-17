@@ -1,6 +1,7 @@
 {
-  "name": "batch-rename",
-  "version": "0.1.0",
+  "name": "rename-it",
+  "version": "1.0.0",
+  "author": "Kotori Yang",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
