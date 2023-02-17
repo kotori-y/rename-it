@@ -54,18 +54,15 @@ export default defineComponent({
 
 <style scoped>
 .file-container {
-  position: absolute;
-  top: 10%;
-  height: 58%;
-  width: 55%;
+  position: relative;
+  height: 70%;
+  width: 80%;
   background-color: rgba(239, 239, 239, 0.36);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .file-container label {

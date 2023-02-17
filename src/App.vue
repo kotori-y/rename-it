@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <FileSelector />
+    <div class="interface">
+      <FileSelector />
+      <HyperParams />
+    </div>
     <RunButton />
   </div>
 </template>
@@ -9,10 +12,11 @@
 import { defineComponent } from "vue";
 import FileSelector from "@/components/FileSelector.vue";
 import RunButton from "@/components/RunButton.vue";
+import HyperParams from "@/components/HypereParams.vue";
 
 export default defineComponent({
   name: "App",
-  components: { RunButton, FileSelector },
+  components: { HyperParams, RunButton, FileSelector },
 });
 </script>
 
@@ -25,5 +29,17 @@ body {
 .container {
   display: flex;
   flex-direction: column;
+}
+
+.interface {
+  position: absolute;
+  width: 90%;
+  height: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 </style>

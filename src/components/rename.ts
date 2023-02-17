@@ -1,4 +1,4 @@
-import { readdir, readFile, rename } from "fs/promises";
+import { readdir, readFile, rename, writeFile } from "fs/promises";
 import { useRootStore } from "../../store";
 
 export async function loopFolder(
@@ -50,21 +50,22 @@ export async function processBatch(dirPath: string) {
     return;
   }
 
-  const root = useRootStore();
+  const rootStore = useRootStore();
   const timeStamp = dirPath.match(/\d+d|\d+h/g);
-  const group = dirPath.split(/\\|\//);
+  const pathSplit = dirPath.split(/\\|\//);
 
-  if (!timeStamp || !group) {
+  if (!timeStamp || !pathSplit) {
     return;
   }
 
-  const groupID = group[group.length - 2];
+  const groupID = pathSplit[pathSplit.length - 2];
+  const rootDir = pathSplit.slice(0, pathSplit.length - 1).join("/");
 
-  const prefix = `${root.cellName}-${root.chipType}-${
-    root.chamberHeight
+  const prefix = `${rootStore.cellName}-${rootStore.chipType}-${
+    rootStore.chamberHeight
   }-${groupID}-${timeStamp.join("-")}`;
 
-  const suffix = root.isFlu ? "-a" : "";
+  const suffix = rootStore.isFlu ? "-a" : "";
 
   const [isOK, flag] = await checkFile(files[0]);
   const newNames4Times = [];
@@ -96,13 +97,16 @@ export async function processBatch(dirPath: string) {
   }
 
   const newNames = [...newNames4Times, ...newNames10Times];
+  let logContent = "";
   if (newNames.length === files.length - 1) {
     for (let i = 0; i < newNames.length; i++) {
       // await rename(files[i], newNames[i]);
       const tmp = files[i + 1].split(/\\|\//);
       const newName = files[i + 1].replace(tmp[tmp.length - 1], newNames[i]);
       await rename(files[i + 1], newName);
-      console.log(`Change ${files[i + 1]} to ${newName}`);
+      const logTmp = `change ${files[i + 1]} to ${newName}\n`;
+      logContent = logContent.concat(logTmp);
     }
   }
+  await writeFile(`${rootDir}/rename.log`, logContent, { flag: "a" });
 }
