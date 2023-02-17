@@ -8,18 +8,22 @@
   </button>
 </template>
 
-<script>
+<script lang="ts">
 import { useRootStore } from "../../store";
 import { computed } from "vue";
+import { loopFolder, processBatch } from "@/components/rename";
 
 export default {
   name: "RunButton",
   setup() {
     const root = useRootStore();
     const isActive = computed(() => root.folderSelected);
+    const rootFolder = computed(() => root.rootFolder);
 
-    function run() {
-      console.log(root.rootFolder);
+    async function run() {
+      const foldersTmp = (await loopFolder(rootFolder.value)) as Array<string>;
+      const folders = foldersTmp.filter((folder) => folder.match(/\d+d\d+h/));
+      folders.forEach(processBatch);
     }
 
     return {
