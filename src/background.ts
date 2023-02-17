@@ -25,6 +25,12 @@ ipcMain.on("open-folder-dialog", (event, arg) => {
     });
 });
 
+ipcMain.on("finished", () => {
+  dialog
+    .showMessageBox({ message: "完成！", type: "info", title: "结束" })
+    .then();
+});
+
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({

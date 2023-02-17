@@ -12,6 +12,7 @@
 import { useRootStore } from "../../store";
 import { computed } from "vue";
 import { loopFolder, processBatch } from "@/components/rename";
+import { ipcRenderer } from "electron";
 
 export default {
   name: "RunButton",
@@ -24,6 +25,7 @@ export default {
       const foldersTmp = (await loopFolder(rootFolder.value)) as Array<string>;
       const folders = foldersTmp.filter((folder) => folder.match(/\d+d\d+h/));
       folders.forEach(processBatch);
+      ipcRenderer.send("finished");
     }
 
     return {

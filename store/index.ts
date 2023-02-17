@@ -7,7 +7,7 @@ export const useRootStore = defineStore("gameRoot", {
       cellName: "U215",
       chipType: "T0",
       chamberHeight: 105,
-      isFlu: false,
+      isFlu: true,
     };
   },
   getters: {
