@@ -9,7 +9,7 @@ module.exports = defineConfig({
         win: {
           // win相关配置
 
-          icon: "./public/kotori.ico",
+          icon: "./public/catkin.ico",
 
           target: [
             {
