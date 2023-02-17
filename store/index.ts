@@ -4,10 +4,10 @@ export const useRootStore = defineStore("gameRoot", {
   state: () => {
     return {
       rootFolder: "",
-      cellName: "U215",
+      cellName: "MCF-7",
       chipType: "T0",
       chamberHeight: 105,
-      isFlu: true,
+      isFlu: false,
     };
   },
   getters: {

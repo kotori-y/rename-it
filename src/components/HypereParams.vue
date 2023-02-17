@@ -80,7 +80,7 @@ export default {
 .input-group input,
 .input-group select {
   height: 10%;
-  width: 30%;
+  width: 50%;
   background-color: rgba(255, 255, 255, 0.6);
   border: none;
 }
