@@ -67,7 +67,7 @@ export async function processBatch(dirPath: string) {
     rootStore.chamberHeight
   }-${groupID}-${timeStamp.join("-")}`;
 
-  const suffix = rootStore.isFlu ? "-a" : "";
+  const suffix = !rootStore.isFlu ? "-a" : "";
 
   const [isOK, flag] = await checkFile(files[0]);
   const newNames4Times = [];
