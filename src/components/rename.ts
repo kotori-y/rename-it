@@ -30,9 +30,11 @@ async function checkFile(file: string): Promise<CheckResult> {
   if (file.match(/site\.txt/)) {
     const content = await loadFile(file);
     if (content) {
-      const contentArray = content.split(/\s+/);
+      const contentArray = content.trim().split(/\s+/);
       const flag = contentArray.filter(
-        (char, index) => index % 2 === 1 && (char === "1-7" || char === "1-12")
+        (char, index) =>
+          index % 2 === 1 &&
+          (char === "1-7" || char === "1-12" || char === "6-12")
       );
       return [flag.length === contentArray.length / 2, flag];
     }
@@ -75,18 +77,30 @@ export async function processBatch(dirPath: string) {
     let chamberID = 1;
 
     for (let i = 0; i < flag.length; i++) {
-      const upper = parseInt(flag[i].split("-")[1]);
-      if (isNaN(upper) || (upper !== 7 && upper !== 12)) {
+      const [_downer, _upper] = flag[i].split("-");
+
+      const downer = parseInt(_downer);
+      const upper = parseInt(_upper);
+      if (
+        isNaN(downer) ||
+        isNaN(upper) ||
+        (downer !== 1 && downer !== 6) ||
+        (upper !== 7 && upper !== 12) ||
+        (downer === 6 && upper === 7)
+      ) {
         return;
       }
 
       const m = upper === 12 ? 2 : 1;
-      for (let n = 0; n < m; n++) {
+      const x4Start = downer === 1 ? 0 : 1;
+      const x10Start = downer === 1 ? 0 : 5;
+
+      for (let n = x4Start; n < m; n++) {
         newNames4Times.push(
           `${prefix}-chamber${chamberID}-4x-${n + 1}${suffix}.jpg`
         );
       }
-      for (let n = 0; n < upper; n++) {
+      for (let n = x10Start; n < upper; n++) {
         newNames10Times.push(
           `${prefix}-chamber${chamberID}-10x-${n + 1}${suffix}.jpg`
         );
